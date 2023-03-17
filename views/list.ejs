@@ -1,0 +1,32 @@
+<%- include("header"); -%>
+
+  <div class="box" id="heading">
+    <h1><%=listTitle%></h1>
+  </div>
+  <div class="box">
+    
+    <!-- zde by ale nastal problém se zadáváním nových itemů stále do jednoho <li> -->
+    <!-- <li>%= newListItem %> </li> -->
+    <!-- Proto vytvoříme FOR loop, který prochází array newListItems (do kterého nahráváme data z array newItems) a vypíše je do jejich vlastního li -->
+    <% newListItems.forEach((item) => { %>
+
+      <form action="/delete" method="post">
+        <div class="item">
+          <!-- v atributu onChange nastavujeme metofu submit jako u button, name je pro odeslání hodnoty a value nastavujeme na id danného itemu z databáze -->
+          <input type="checkbox" onChange="this.form.submit()" name="checkbox" value="<%= item._id %>">
+          <p><%= item.name %></p> 
+          <!-- pozor - .name nepíšeme za i, ale za [], protože protože procházíme loop, v němž jsou JS object -->
+        </div>
+        <input type="hidden" name="listName" value="<%=listTitle%>"></input>
+      </form>
+       
+    <% }) %>
+    <form class="item" action="/" method="post">
+      <input type="text" name="newItem" placeholder="New Item" autocomplete="off">
+      <button type="submit" name="list" value="<%=listTitle%>">+</button>
+    </form>
+  </div>
+
+  <%- include("footer"); -%>
+
+  
